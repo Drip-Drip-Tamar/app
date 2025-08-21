@@ -1,13 +1,15 @@
 import type { APIRoute } from 'astro';
 import { sql } from '../../utils/db';
+import { verifyNetlifyUser, requireContributor } from '../../utils/serverAuth';
 
-export const DELETE: APIRoute = async ({ url }) => {
+export const DELETE: APIRoute = async (context) => {
   try {
-    // TODO: Add authentication check
-    // const user = verifyToken(event);
+    // Authentication check
+    const user = verifyNetlifyUser(context);
+    requireContributor(user);
     
     // Get sample ID from URL
-    const sample_id = url.searchParams.get('id');
+    const sample_id = context.url.searchParams.get('id');
     if (!sample_id) {
       return new Response(JSON.stringify({ error: 'Sample ID is required' }), {
         status: 400,
@@ -69,6 +71,25 @@ export const DELETE: APIRoute = async ({ url }) => {
   } catch (error) {
     console.error('Delete sample API error:', error);
     
+    // Handle authentication/authorization errors
+    if (error.message?.includes('Unauthorized')) {
+      return new Response(JSON.stringify({ 
+        error: 'Authentication required' 
+      }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+    
+    if (error.message?.includes('Forbidden')) {
+      return new Response(JSON.stringify({ 
+        error: 'Insufficient permissions' 
+      }), {
+        status: 403,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+    
     return new Response(JSON.stringify({ 
       error: 'Internal server error' 
     }), {
@@ -79,9 +100,12 @@ export const DELETE: APIRoute = async ({ url }) => {
 };
 
 // Also support POST method with _method=DELETE for form compatibility
-export const POST: APIRoute = async ({ request, url }) => {
+export const POST: APIRoute = async (context) => {
   try {
-    const formData = await request.formData();
+    // Authentication check
+    const user = verifyNetlifyUser(context);
+    requireContributor(user);
+    const formData = await context.request.formData();
     const method = formData.get('_method');
     
     if (method === 'DELETE') {

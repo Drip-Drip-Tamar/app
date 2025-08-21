@@ -1,13 +1,15 @@
 import type { APIRoute } from 'astro';
 import { sql } from '../../utils/db';
+import { verifyNetlifyUser, requireContributor } from '../../utils/serverAuth';
 
-export const PUT: APIRoute = async ({ request, url }) => {
+export const PUT: APIRoute = async (context) => {
   try {
-    // TODO: Add authentication check
-    // const user = verifyToken(event);
+    // Authentication check
+    const user = verifyNetlifyUser(context);
+    requireContributor(user);
     
     // Get sample ID from URL
-    const sample_id = url.searchParams.get('id');
+    const sample_id = context.url.searchParams.get('id');
     if (!sample_id) {
       return new Response(JSON.stringify({ error: 'Sample ID is required' }), {
         status: 400,
@@ -25,7 +27,7 @@ export const PUT: APIRoute = async ({ request, url }) => {
     }
 
     // Parse JSON body
-    const data = await request.json();
+    const data = await context.request.json();
     
     const { 
       sampled_at, 
@@ -136,6 +138,25 @@ export const PUT: APIRoute = async ({ request, url }) => {
 
   } catch (error) {
     console.error('Update sample API error:', error);
+    
+    // Handle authentication/authorization errors
+    if (error.message?.includes('Unauthorized')) {
+      return new Response(JSON.stringify({ 
+        error: 'Authentication required' 
+      }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+    
+    if (error.message?.includes('Forbidden')) {
+      return new Response(JSON.stringify({ 
+        error: 'Insufficient permissions' 
+      }), {
+        status: 403,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
     
     return new Response(JSON.stringify({ 
       error: 'Internal server error' 

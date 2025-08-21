@@ -58,6 +58,9 @@ const ogImageUrl = ogImage || `${siteUrl}/images/og-default.jpg`;
         
         <!-- Theme color for mobile browsers -->
         <meta name="theme-color" content="#005eb8" />
+        
+        <!-- Netlify Identity Widget -->
+        <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     </head>
     <body class="antialiased text-gray-900 bg-gray-50">
         <!-- Skip navigation for accessibility -->
@@ -72,5 +75,18 @@ const ogImageUrl = ogImage || `${siteUrl}/images/og-default.jpg`;
             </main>
             <Footer />
         </div>
+        
+        <!-- Initialize Netlify Identity -->
+        <script>
+          if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+              if (!user) {
+                window.netlifyIdentity.on("login", () => {
+                  document.location.href = "/admin/";
+                });
+              }
+            });
+          }
+        </script>
     </body>
 </html>

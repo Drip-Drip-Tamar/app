@@ -1,13 +1,15 @@
 import type { APIRoute } from 'astro';
 import { sql } from '../../utils/db';
+import { verifyNetlifyUser, requireContributor } from '../../utils/serverAuth';
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async (context) => {
   try {
-    // TODO: Add authentication check
-    // const user = verifyToken(event);
+    // Authentication check
+    const user = verifyNetlifyUser(context);
+    requireContributor(user);
     
     // Parse form data
-    const formData = await request.formData();
+    const formData = await context.request.formData();
     
     const site_id = formData.get('site_id') as string;
     const sampled_at = formData.get('sampled_at') as string;
@@ -134,6 +136,25 @@ export const POST: APIRoute = async ({ request }) => {
 
   } catch (error) {
     console.error('Create sample API error:', error);
+    
+    // Handle authentication/authorization errors
+    if (error.message?.includes('Unauthorized')) {
+      return new Response(JSON.stringify({ 
+        error: 'Authentication required' 
+      }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+    
+    if (error.message?.includes('Forbidden')) {
+      return new Response(JSON.stringify({ 
+        error: 'Insufficient permissions' 
+      }), {
+        status: 403,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
     
     // Handle specific database errors
     if (error.message?.includes('foreign key constraint')) {

@@ -7,7 +7,10 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@astrojs/netlify": "^6.2.3",
@@ -35,6 +38,10 @@
   },
   "devDependencies": {
     "@types/blobshape": "^1.0.3",
-    "@types/node": "^20.12.7"
+    "@types/node": "^20.12.7",
+    "@types/supertest": "^6.0.3",
+    "@vitest/ui": "^3.2.4",
+    "supertest": "^7.1.4",
+    "vitest": "^3.2.4"
   }
 }
