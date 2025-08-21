@@ -110,6 +110,48 @@
         @apply bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow cursor-pointer;
     }
 
+    /* Data tables */
+    .table {
+        @apply w-full border-collapse border border-gray-300 rounded-lg overflow-hidden;
+        
+        th {
+            @apply bg-gray-50 border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900;
+        }
+        
+        td {
+            @apply border border-gray-300 px-4 py-3 text-gray-700;
+        }
+        
+        tr:nth-child(even) {
+            @apply bg-gray-50/50;
+        }
+        
+        tr:hover {
+            @apply bg-blue-50;
+        }
+    }
+
+    /* Chips/badges for tags, categories */
+    .chip {
+        @apply inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800;
+        
+        &.chip-primary {
+            @apply bg-primary/10 text-primary;
+        }
+        
+        &.chip-success {
+            @apply bg-success/10 text-success;
+        }
+        
+        &.chip-warning {
+            @apply bg-warning/10 text-warning;
+        }
+        
+        &.chip-danger {
+            @apply bg-danger/10 text-danger;
+        }
+    }
+
     /* Skip navigation for accessibility */
     .skip-nav {
         @apply absolute top-0 left-0 bg-primary text-primary-content px-4 py-2 -translate-y-full focus:translate-y-0 transition-transform z-50;

@@ -95,8 +95,8 @@
 
 ### Styling Setup
 
-- [ ] Adopt Tailwind CSS (+ @tailwindcss/typography); define four @apply primitives (.btn, .card, .table, .chip).
-- [ ] Avoid extra CSS files beyond the Tailwind entry; keep CSS output minimal.
+- [x] Adopt Tailwind CSS (+ @tailwindcss/typography); define four @apply primitives (.btn, .card, .table, .chip).
+- [x] Avoid extra CSS files beyond the Tailwind entry; keep CSS output minimal.
 
 ### Astro Configuration
 
@@ -111,12 +111,12 @@
 
 ### Content Structure
 
-- [ ] Create content collections in `src/content/`:
-  - [ ] `config.ts` with schema definitions
-  - [ ] `news/` directory
-  - [ ] `pages/` directory
-- [ ] Add frontmatter schema validation
-- [ ] Create example content files
+- [x] Create content collections in `src/content/`:
+  - [x] `config.ts` with schema definitions
+  - [x] `news/` directory
+  - [x] `pages/` directory
+- [x] Add frontmatter schema validation
+- [x] Create example content files
 
 ### Public Pages Implementation
 
@@ -125,26 +125,26 @@
   - [x] Latest sample date component
   - [x] Three CTAs (Results, News, About)
   - [x] Rainfall explainer paragraph
-- [ ] Create `src/pages/news/index.astro`:
-  - [ ] List layout with pagination
-  - [ ] Article preview component
-- [ ] Create `src/pages/news/[slug].astro`:
-  - [ ] Dynamic routing setup
-  - [ ] Article layout
-  - [ ] Meta tags generation
-- [ ] Create `src/pages/results/index.astro`:
-  - [ ] Site selector
-  - [ ] Explanation text
-- [ ] Create `src/pages/results/[site].astro`:
-  - [ ] Chart containers (empty for now)
-  - [ ] Table structure
-  - [ ] Date filter controls
-- [ ] Create `src/pages/contact.astro`:
-  - [ ] Static content only
-- [ ] Create `src/pages/tamar-river.astro`:
-  - [ ] Fact sheet content
-- [ ] Create `src/pages/about.astro`:
-  - [ ] Team and method info
+- [x] Create `src/pages/news/index.astro`:
+  - [x] List layout with pagination
+  - [x] Article preview component
+- [x] Create `src/pages/news/[slug].astro`:
+  - [x] Dynamic routing setup
+  - [x] Article layout
+  - [x] Meta tags generation
+- [x] Create `src/pages/results/index.astro`:
+  - [x] Site selector
+  - [x] Explanation text
+- [x] Create `src/pages/results/[site].astro`:
+  - [x] Chart containers (empty for now)
+  - [x] Table structure
+  - [x] Date filter controls
+- [x] Create `src/pages/contact.astro`:
+  - [x] Static content only
+- [x] Create `src/pages/tamar-river.astro`:
+  - [x] Fact sheet content
+- [x] Create `src/pages/about.astro`:
+  - [x] Team and method info
 
 ### Component Library
 

@@ -1,0 +1,233 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// Get the site parameter
+const { site } = Astro.params;
+
+// Site data - TODO: Replace with database query
+const siteData = {
+  'okel-tor': {
+    name: 'Okel Tor',
+    description: 'Upper Tamar sampling site near Launceston',
+    location: 'River Tamar, near Launceston',
+    coordinates: { lat: 50.6389, lng: -4.3597 }
+  },
+  'calstock': {
+    name: 'Calstock', 
+    description: 'Lower Tamar tidal sampling site',
+    location: 'River Tamar, Calstock',
+    coordinates: { lat: 50.5167, lng: -4.2167 }
+  }
+};
+
+const currentSite = siteData[site as keyof typeof siteData];
+
+if (!currentSite) {
+  return Astro.redirect('/results/', 302);
+}
+
+// Sample data - TODO: Replace with API call to site-series endpoint
+const sampleData = [
+  {
+    date: '2025-01-18',
+    rainfall24h: 12.5,
+    rainfall72h: 28.3,
+    eColi: 85,
+    enterococci: 42
+  },
+  {
+    date: '2025-01-15', 
+    rainfall24h: 0.0,
+    rainfall72h: 2.1,
+    eColi: 32,
+    enterococci: 18
+  },
+  {
+    date: '2025-01-12',
+    rainfall24h: 5.2,
+    rainfall72h: 15.8,
+    eColi: 156,
+    enterococci: 78
+  }
+];
+
+function getResultClass(value: number): string {
+  if (value < 100) return 'result-safe';
+  if (value < 1000) return 'result-moderate';
+  return 'result-high';
+}
+---
+
+<Layout title={`${currentSite.name} Results - Drip Drip Tamar`}>
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <nav class="mb-8">
+      <a href="/results/" class="text-primary hover:underline text-sm font-medium">
+        ← Back to All Sites
+      </a>
+    </nav>
+
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 mb-4">
+        {currentSite.name}
+      </h1>
+      <div class="flex flex-col md:flex-row md:items-center gap-4 text-gray-600">
+        <p>{currentSite.description}</p>
+        <span class="chip">
+          📍 {currentSite.location}
+        </span>
+      </div>
+    </header>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+      <!-- Chart placeholder - will be enhanced with Chart.js -->
+      <section class="lg:col-span-2">
+        <div class="card">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">
+            Bacterial Levels Over Time
+          </h2>
+          
+          <!-- Date filter controls -->
+          <div class="flex gap-2 mb-6">
+            <button class="px-3 py-1 text-sm bg-primary text-white rounded">3 months</button>
+            <button class="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300">6 months</button>
+            <button class="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300">12 months</button>
+            <button class="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300">All</button>
+          </div>
+
+          <!-- Chart container - placeholder for now -->
+          <div class="h-80 bg-gray-50 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+            <div class="text-center text-gray-500">
+              <div class="text-2xl mb-2">📊</div>
+              <p class="font-medium">Chart will be displayed here</p>
+              <p class="text-sm">Interactive chart coming soon</p>
+            </div>
+          </div>
+
+          <!-- CSV download -->
+          <div class="mt-4 text-right">
+            <button class="text-sm text-primary hover:underline">
+              📥 Download CSV
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Latest results summary -->
+      <aside>
+        <div class="card">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">
+            Latest Results
+          </h3>
+          {sampleData.length > 0 && (
+            <div class="space-y-4">
+              <div class="text-sm text-gray-500">
+                {sampleData[0].date}
+              </div>
+              
+              <div class="space-y-3">
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm font-medium">E. coli</span>
+                    <span class={`${getResultClass(sampleData[0].eColi)}`}>
+                      {sampleData[0].eColi} CFU/100ml
+                    </span>
+                  </div>
+                </div>
+                
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm font-medium">Enterococci</span>
+                    <span class={`${getResultClass(sampleData[0].enterococci)}`}>
+                      {sampleData[0].enterococci} CFU/100ml
+                    </span>
+                  </div>
+                </div>
+
+                <div class="pt-3 border-t border-gray-200">
+                  <div class="text-sm">
+                    <div class="flex justify-between">
+                      <span class="text-gray-500">24h rainfall:</span>
+                      <span>{sampleData[0].rainfall24h}mm</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-gray-500">72h rainfall:</span>
+                      <span>{sampleData[0].rainfall72h}mm</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <!-- Quick safety guidance -->
+        <div class="card mt-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">
+            Safety Guidelines
+          </h3>
+          <div class="space-y-2 text-sm">
+            <div class="flex items-center gap-2">
+              <span class="result-safe text-xs px-2 py-1">Safe</span>
+              <span class="text-gray-600">&lt; 100 CFU/100ml</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="result-moderate text-xs px-2 py-1">Caution</span>
+              <span class="text-gray-600">100-1000 CFU/100ml</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="result-high text-xs px-2 py-1">Avoid</span>
+              <span class="text-gray-600">&gt; 1000 CFU/100ml</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Data table -->
+    <section class="mt-8">
+      <div class="card">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold text-gray-900">
+            Recent Samples
+          </h2>
+          <button class="text-sm text-primary hover:underline">
+            View All Samples
+          </button>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>E. coli (CFU/100ml)</th>
+                <th>Enterococci (CFU/100ml)</th>
+                <th>24h Rainfall (mm)</th>
+                <th>72h Rainfall (mm)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sampleData.map((sample) => (
+                <tr>
+                  <td class="font-medium">{sample.date}</td>
+                  <td>
+                    <span class={getResultClass(sample.eColi)}>
+                      {sample.eColi}
+                    </span>
+                  </td>
+                  <td>
+                    <span class={getResultClass(sample.enterococci)}>
+                      {sample.enterococci}
+                    </span>
+                  </td>
+                  <td>{sample.rainfall24h}</td>
+                  <td>{sample.rainfall72h}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

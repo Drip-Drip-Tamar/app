@@ -1,0 +1,130 @@
+---
+import { getEntry } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const aboutPage = await getEntry('pages', 'about');
+const { Content } = await aboutPage.render();
+---
+
+<Layout title="About - Drip Drip Tamar">
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <article class="prose prose-lg max-w-none prose-headings:text-gray-900 prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
+      <Content />
+    </article>
+
+    <section class="mt-12 grid md:grid-cols-2 gap-8">
+      <div class="card">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">
+          Our Team
+        </h2>
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-medium text-gray-900">Project Coordinators</h3>
+            <p class="text-gray-600 text-sm">
+              Local volunteers with environmental science backgrounds who oversee sampling protocols 
+              and quality assurance.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-medium text-gray-900">Sample Collectors</h3>
+            <p class="text-gray-600 text-sm">
+              Trained community volunteers who collect water samples twice weekly at each monitoring site.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-medium text-gray-900">Laboratory Analysis</h3>
+            <p class="text-gray-600 text-sm">
+              Certified environmental laboratory providing bacterial analysis following established protocols.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">
+          Our Methods
+        </h2>
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-medium text-gray-900">Sample Collection</h3>
+            <p class="text-gray-600 text-sm">
+              Sterile sampling bottles, consistent locations, proper chain of custody, 
+              and analysis within 24 hours of collection.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-medium text-gray-900">Laboratory Testing</h3>
+            <p class="text-gray-600 text-sm">
+              Membrane filtration method following ISO standards for E. coli and Intestinal Enterococci enumeration.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="font-medium text-gray-900">Quality Assurance</h3>
+            <p class="text-gray-600 text-sm">
+              Regular blank samples, duplicate testing, and cross-validation with other monitoring programs.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-8">
+      <div class="card">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">
+          Data & Transparency
+        </h2>
+        <div class="prose prose-lg max-w-none text-gray-600">
+          <p>
+            All our water quality data is published openly on this website. We believe in transparency 
+            and making environmental information accessible to everyone who uses the River Tamar.
+          </p>
+          
+          <h3 class="text-lg font-semibold text-gray-900 mt-6 mb-3">Data Sharing</h3>
+          <p>
+            Our dataset is available to researchers, environmental groups, and regulatory agencies. 
+            We work collaboratively with the Environment Agency, local councils, and academic institutions 
+            to contribute to broader understanding of water quality in the Tamar catchment.
+          </p>
+
+          <h3 class="text-lg font-semibold text-gray-900 mt-6 mb-3">Limitations</h3>
+          <p>
+            Our monitoring provides valuable community data but has limitations. We test at fixed locations 
+            twice weekly, so water quality can vary significantly between samples. Always use your judgment 
+            and consider recent weather conditions when making decisions about water contact activities.
+          </p>
+        </div>
+        
+        <div class="mt-6 pt-6 border-t border-gray-200 flex gap-4">
+          <a href="/results/" class="btn">View Latest Results</a>
+          <a href="/contact/" class="btn bg-gray-200 text-gray-700 hover:bg-gray-300">
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-8">
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+        <h3 class="text-lg font-semibold text-blue-900 mb-3">
+          Want to Get Involved?
+        </h3>
+        <p class="text-blue-800 mb-4">
+          We're always looking for volunteers to help with sample collection, data analysis, 
+          and community outreach. No prior experience necessary - we provide full training.
+        </p>
+        <div class="flex gap-4">
+          <a href="/contact/" class="btn bg-blue-600 text-white hover:bg-blue-700">
+            Volunteer with Us
+          </a>
+          <a href="/tamar-river/" class="btn bg-blue-200 text-blue-800 hover:bg-blue-300">
+            Learn About the Tamar
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

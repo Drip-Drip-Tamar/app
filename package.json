@@ -16,6 +16,7 @@
     "@neondatabase/serverless": "^1.0.1",
     "@netlify/blobs": "^8.2.0",
     "@netlify/functions": "^2.8.2",
+    "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.0.14",
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
