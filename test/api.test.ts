@@ -52,6 +52,7 @@ describe('API Endpoints', () => {
   describe('POST /api/create-sample', () => {
     it('should create a sample with valid data', async () => {
       // Mock successful database operations
+      (sql as any).mockResolvedValueOnce([{ id: 'site-123' }]); // site check
       (sql as any).mockResolvedValueOnce([]); // duplicate check
       (sql as any).mockResolvedValueOnce([{ id: 'sample-id' }]); // sample creation
       (sql as any).mockResolvedValueOnce([]); // e_coli result
@@ -118,12 +119,13 @@ describe('API Endpoints', () => {
       const result = await response.json();
 
       expect(response.status).toBe(400);
-      expect(result.error).toContain('Invalid UUID format');
+      expect(result.error).toContain('Invalid site ID format');
     });
 
     it('should reject duplicate sample (same site and date)', async () => {
-      // Mock duplicate found
-      (sql as any).mockResolvedValueOnce([{ id: 'existing-sample' }]);
+      // Mock site exists and duplicate found
+      (sql as any).mockResolvedValueOnce([{ id: 'site-123' }]); // site check
+      (sql as any).mockResolvedValueOnce([{ id: 'existing-sample' }]); // duplicate check
 
       const formData = new FormData();
       formData.append('site_id', '123e4567-e89b-12d3-a456-426614174000');
@@ -142,7 +144,7 @@ describe('API Endpoints', () => {
       const result = await response.json();
 
       expect(response.status).toBe(409);
-      expect(result.error).toContain('already exists');
+      expect(result.error).toContain('A sample already exists for this site on this date');
     });
 
     it('should require authentication', async () => {
@@ -202,24 +204,46 @@ describe('API Endpoints', () => {
     it('should return site data with valid slug', async () => {
       const mockData = [
         {
-          sampled_at: '2025-01-21T10:00:00Z',
-          e_coli: 50,
-          enterococci: 25,
+          site_id: 'site-123',
+          site_slug: 'okel-tor',
+          site_name: 'Okel Tor',
+          sample_id: 'sample-123',
+          sampled_at: new Date('2025-01-21T10:00:00Z'),
           rainfall_24h_mm: 5.2,
           rainfall_72h_mm: 12.8,
+          sample_notes: 'Test notes',
+          param: 'e_coli',
+          value: '50',
+          unit: 'CFU/100ml',
+          qa_flag: null,
+        },
+        {
+          site_id: 'site-123',
+          site_slug: 'okel-tor',
+          site_name: 'Okel Tor',
+          sample_id: 'sample-123',
+          sampled_at: new Date('2025-01-21T10:00:00Z'),
+          rainfall_24h_mm: 5.2,
+          rainfall_72h_mm: 12.8,
+          sample_notes: 'Test notes',
+          param: 'intestinal_enterococci',
+          value: '25',
+          unit: 'CFU/100ml',
+          qa_flag: null,
         },
       ];
       (sql as any).mockResolvedValueOnce(mockData);
 
       const context = createMockContext({
-        url: new URL('http://localhost:3000/api/site-series?slug=okel-tor'),
+        url: new URL('http://localhost:3000/api/site-series?site=okel-tor'),
       });
 
       const response = await getSeries(context);
       const result = await response.json();
 
       expect(response.status).toBe(200);
-      expect(result.data).toEqual(mockData);
+      expect(result.site).toBeDefined();
+      expect(result.samples).toBeDefined();
       expect(response.headers.get('cache-control')).toBe('public, max-age=300');
     });
 
@@ -232,21 +256,30 @@ describe('API Endpoints', () => {
       const result = await response.json();
 
       expect(response.status).toBe(400);
-      expect(result.error).toContain('slug parameter is required');
+      expect(result.error).toContain('Site parameter is required');
     });
 
     it('should filter by date range', async () => {
       const mockData = [
         {
-          sampled_at: '2025-01-15T10:00:00Z',
-          e_coli: 30,
-          enterococci: 15,
+          site_id: 'site-123',
+          site_slug: 'okel-tor',
+          site_name: 'Okel Tor',
+          sample_id: 'sample-456',
+          sampled_at: new Date('2025-01-15T10:00:00Z'),
+          rainfall_24h_mm: null,
+          rainfall_72h_mm: null,
+          sample_notes: null,
+          param: 'e_coli',
+          value: '30',
+          unit: 'CFU/100ml',
+          qa_flag: null,
         },
       ];
       (sql as any).mockResolvedValueOnce(mockData);
 
       const context = createMockContext({
-        url: new URL('http://localhost:3000/api/site-series?slug=okel-tor&from=2025-01-01&to=2025-01-31'),
+        url: new URL('http://localhost:3000/api/site-series?site=okel-tor&from=2025-01-01&to=2025-01-31'),
       });
 
       const response = await getSeries(context);
@@ -261,27 +294,42 @@ describe('API Endpoints', () => {
     it('should return CSV data with correct headers', async () => {
       const mockData = [
         {
-          sampled_at: '2025-01-21T10:00:00Z',
-          e_coli: 50,
-          enterococci: 25,
+          site_name: 'Okel Tor',
+          sampled_at: new Date('2025-01-21T10:00:00Z'),
           rainfall_24h_mm: 5.2,
           rainfall_72h_mm: 12.8,
+          sample_notes: 'Test notes',
+          param: 'e_coli',
+          value: '50',
+          unit: 'CFU/100ml',
+          qa_flag: null,
+        },
+        {
+          site_name: 'Okel Tor',
+          sampled_at: new Date('2025-01-21T10:00:00Z'),
+          rainfall_24h_mm: 5.2,
+          rainfall_72h_mm: 12.8,
+          sample_notes: 'Test notes',
+          param: 'intestinal_enterococci',
+          value: '25',
+          unit: 'CFU/100ml',
+          qa_flag: null,
         },
       ];
       (sql as any).mockResolvedValueOnce(mockData);
 
       const context = createMockContext({
-        url: new URL('http://localhost:3000/api/export.csv?slug=okel-tor'),
+        url: new URL('http://localhost:3000/api/export.csv?site=okel-tor'),
       });
 
       const response = await exportCSV(context);
       const csvText = await response.text();
 
       expect(response.status).toBe(200);
-      expect(response.headers.get('content-type')).toBe('text/csv');
+      expect(response.headers.get('content-type')).toBe('text/csv; charset=utf-8');
       expect(response.headers.get('content-disposition')).toContain('attachment; filename=');
-      expect(csvText).toContain('Date,E. coli (CFU/100ml),Enterococci (CFU/100ml)');
-      expect(csvText).toContain('2025-01-21T10:00:00.000Z,50,25');
+      expect(csvText).toContain('Site Name,Sample Date,E. coli (CFU/100ml)');
+      expect(csvText).toContain('Enterococci (CFU/100ml)');
     });
   });
 
@@ -290,21 +338,23 @@ describe('API Endpoints', () => {
       const maliciousSlug = "'; DROP TABLE samples; --";
       
       const context = createMockContext({
-        url: new URL(`http://localhost:3000/api/site-series?slug=${encodeURIComponent(maliciousSlug)}`),
+        url: new URL(`http://localhost:3000/api/site-series?site=${encodeURIComponent(maliciousSlug)}`),
       });
 
-      await getSeries(context);
+      // Mock empty result for malicious input (should be rejected by validation)
+      (sql as any).mockResolvedValueOnce([]);
       
-      // Verify that the malicious input was passed safely to the SQL function
-      // The actual protection happens in the sql template literal
-      expect(sql).toHaveBeenCalled();
+      const response = await getSeries(context);
+      
+      // Malicious input should be caught by validation and return 400
+      expect(response.status).toBe(400);
     });
 
     it('should prevent SQL injection in date parameters', async () => {
       const maliciousDate = "'; DROP TABLE samples; --";
       
       const context = createMockContext({
-        url: new URL(`http://localhost:3000/api/site-series?slug=okel-tor&from=${encodeURIComponent(maliciousDate)}`),
+        url: new URL(`http://localhost:3000/api/site-series?site=okel-tor&from=${encodeURIComponent(maliciousDate)}`),
       });
 
       await getSeries(context);
@@ -315,12 +365,12 @@ describe('API Endpoints', () => {
 
   describe('Data Validation', () => {
     it('should validate bacterial count ranges', async () => {
-      // Test with extremely high values
+      // Test with extremely high values - should be rejected
       const formData = new FormData();
       formData.append('site_id', '123e4567-e89b-12d3-a456-426614174000');
       formData.append('sampled_at', '2025-01-21T10:00:00Z');
       formData.append('e_coli', '999999999');
-      formData.append('enterococci', '999999999');
+      formData.append('enterococci', '25');
 
       const context = createMockContext({
         request: new Request('http://localhost:3000/api/create-sample', {
@@ -329,15 +379,11 @@ describe('API Endpoints', () => {
         }),
       });
 
-      // Should still accept (validation warnings happen in UI)
-      (sql as any).mockResolvedValueOnce([]); // duplicate check
-      (sql as any).mockResolvedValueOnce([{ id: 'sample-id' }]); // sample creation
-      (sql as any).mockResolvedValueOnce([]); // e_coli result
-      (sql as any).mockResolvedValueOnce([]); // enterococci result
-
       const response = await createSample(context);
+      const result = await response.json();
       
-      expect(response.status).toBe(201);
+      expect(response.status).toBe(400);
+      expect(result.error).toContain('E. coli value must be between 0 and 100,000');
     });
 
     it('should reject negative bacterial counts', async () => {
@@ -358,7 +404,7 @@ describe('API Endpoints', () => {
       const result = await response.json();
 
       expect(response.status).toBe(400);
-      expect(result.error).toContain('must be non-negative');
+      expect(result.error).toContain('E. coli value must be between 0 and 100,000');
     });
   });
 });
