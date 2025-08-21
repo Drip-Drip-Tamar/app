@@ -93,6 +93,11 @@
 
 ## Phase 2: Static Site Structure (Day 2-3)
 
+### Styling Setup
+
+- [ ] Adopt Tailwind CSS (+ @tailwindcss/typography); define four @apply primitives (.btn, .card, .table, .chip).
+- [ ] Avoid extra CSS files beyond the Tailwind entry; keep CSS output minimal.
+
 ### Astro Configuration
 
 - [x] Update `astro.config.mjs`:
@@ -100,17 +105,8 @@
   - [x] Configure build output
   - [x] Add image optimization settings
 - [x] Create base layout: `src/layouts/Layout.astro`
-- [x] Add CSS variables in `src/styles/global.css`:
-  ```css
-  :root {
-    --color-primary: #005eb8;
-    --color-danger: #d32f2f;
-    --color-success: #388e3c;
-    --font-base: system-ui, -apple-system, sans-serif;
-    --spacing-unit: 0.5rem;
-  }
-  ```
-- [x] Create responsive grid system (no framework)
+- [x] Add CSS variables in `src/styles/global.css` (replace with Tailwind configuration)
+- [x] Create responsive grid system (replace with Tailwind utilities)
 - [x] Implement skip navigation link
 
 ### Content Structure
@@ -401,9 +397,7 @@
 - [ ] Minimize CSS:
   - [ ] Remove unused styles
   - [ ] Combine media queries
-- [ ] Check bundle sizes:
-  - [ ] Ensure < 90KB JS on results page
-  - [ ] Zero JS on other pages
+- [ ] Check bundle sizes per PRD §8 performance budgets
 - [ ] Enable Netlify asset optimization
 
 ## Phase 7: Testing & Quality (Day 7-8)
@@ -510,10 +504,7 @@
 
 ### Technical Requirements
 
-- [ ] All 6 public pages load < 1.5s on 3G
-- [ ] Results page JS < 90KB
-- [ ] Other pages have zero JS
-- [ ] HTML per page < 50KB
+- [ ] Performance budgets per PRD §8 met
 - [ ] API responses < 400ms p50
 
 ### Functional Requirements

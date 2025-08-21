@@ -375,6 +375,7 @@ The system shall:
 3. Provide text alternatives for images.
 4. Maintain colour-contrast at least WCAG AA.
 5. Chart canvases accompanied by a data table for screen-reader access.
+6. Wrap long-form content in <article class="prose">…</article>; ensure visible focus using Tailwind focus utilities (e.g. focus:ring).
 
 **Acceptance:** Automated a11y scan (axe) shows no critical issues on key pages.
 
@@ -388,6 +389,7 @@ The system shall:
 4. Make a single API call per Results view (site + range).
 5. **Respect performance budgets**: See PRD.md Section 8.1 for authoritative budgets.
 6. **Admin pages**: Keep JavaScript minimal, prefer server-side rendering.
+7. **Styling**: Implemented with Tailwind CSS (+ @tailwindcss/typography). Non-Results pages ship zero JS; Results page CSS comes from Tailwind build only.
 
 ## 10. Security & Privacy
 
@@ -440,6 +442,8 @@ The system shall:
 
 **Admin Interface Requirements:**
 
+Admin pages use Tailwind utilities and the shared .btn, .card, .table primitives. No SPA/UI frameworks.
+
 - **Sample Entry**: Simple form for logging new samples.
 - **Sample Management**: Basic list view with edit/delete capabilities.
 - **Authentication**: Netlify Identity JWT for contributors.
@@ -459,6 +463,9 @@ The system shall:
 - **Performance respected**: Admin pages maintain low JavaScript usage and fast loading.
 - Accessibility: 0 critical axe issues on Front and Results.
 - Performance budgets respected (non-Results no JS; Results only charts).
+- Public pages render using Tailwind; non-Results pages include no JS.
+- Results uses Tailwind + Chart.js only.
+- This document references PRD §8 for performance budgets.
 
 ## 14. Out of Scope (MVP)
 

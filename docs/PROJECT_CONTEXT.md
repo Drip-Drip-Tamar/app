@@ -19,6 +19,7 @@ A clear, fast, low-bandwidth website that helps the public understand water qual
 - **Trustworthy**: show dates, locations, and units; never overstate certainty
 - **Privacy-respecting**: no trackers or unnecessary cookies
 - **Simplicity**: minimal tooling; prefer configuration/content over code
+- **Styling with Tailwind CSS to keep pages fast and consistent**
 
 ## Site Structure & Goals
 
@@ -145,6 +146,7 @@ A clear, fast, low-bandwidth website that helps the public understand water qual
   - /admin/help page with step-by-step guides and glossary
   - First-time login wizard for profile setup
 - A "Last updated" timestamp appears on relevant pages to reinforce trust
+- The Typography plugin provides readable defaults for posts; minimal bespoke CSS
 
 ## MVP Scope
 

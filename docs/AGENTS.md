@@ -44,7 +44,7 @@
   - Environment variables for all settings
   - No hardcoded values in code
   - Config files for site metadata, navigation, etc.
-- **Styling:** Hand-written CSS with variables; no framework unless it reduces code. Design for high contrast and small payloads.
+- **Styling:** Tailwind CSS (JIT) with @tailwindcss/typography. Utility-first classes; define four small @apply primitives: .btn, .card, .table, .chip. No UI libraries.
 - **Images:** Optimised, lazy-loaded, responsive sizes. No tracking pixels, no analytics by default.
 
 ## 4. Decision Checklist (before writing code)
@@ -63,7 +63,7 @@
 | **Astro** | Prefer static pages; use islands only for charts | SSR everywhere; client-heavy routing |
 | **JS** | Module-scoped utilities; no globals | Large client bundles; polyfills "just in case" |
 | **Admin JS** | Progressive enhancement: forms work without JS, JS adds UX | SPA framework for admin pages |
-| **CSS** | Small, semantic classes; CSS variables; no resets beyond normalise | Heavy frameworks; bespoke theming engines |
+| **CSS** | Tailwind utilities; tiny @apply primitives; no bespoke theming engine | No UI kits; no ad-hoc global CSS files |
 | **Data** | Typed queries (Drizzle or parameterised SQL), clear units/dates | String-built SQL; mixed units/date formats |
 | **Accessibility** | Native elements, labels, focus states | Div-buttons, inaccessible colour choices |
 | **Content** | Markdown for pages/posts; last-updated stamps | WYSIWYG bloat; inline styles in Markdown |
@@ -71,13 +71,7 @@
 
 ## 6. Performance Budgets
 
-**See PRD.md Section 8.1 for authoritative performance budgets.**
-
-Key points:
-
-- HTML ≤ 50 KB per page
-- JS ≤ 90 KB on Results page only; 0 KB elsewhere
-- API cache 5 min; single query per Results view
+Performance budgets are defined in PRD §8; this guide defers to PRD.
 
 ## 7. Data & Content Workflow
 

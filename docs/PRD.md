@@ -217,6 +217,7 @@ results (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), sample_id UUID→samples
 - **API caching**: 5 minutes for public endpoints
 - **Admin interface**: loads within 2 seconds for authenticated users
 - **Time to Interactive**: ≤ 1.5s on 3G Fast (front page)
+- **Styling**: Tailwind CSS with @tailwindcss/typography; small palette; no UI kits. Utility-first with minimal @apply primitives.
 
 ### Accessibility
 
