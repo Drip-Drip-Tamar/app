@@ -2,15 +2,27 @@
 
 @theme {
     --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --color-primary: #f67280;
-    --color-primary-content: #101828;
-    --color-complementary: #355c7d;
-    --background-image-noise: linear-gradient(
-            to bottom,
-            color-mix(in oklab, var(--color-gray-950) 0%, transparent),
-            color-mix(in oklab, var(--color-gray-950) 100%, transparent)
-        ),
-        url('/images/noise.png');
+    
+    /* Water quality monitoring theme colors */
+    --color-primary: #005eb8;          /* NHS blue for trust and authority */
+    --color-primary-content: #ffffff;
+    --color-danger: #d32f2f;           /* Red for high bacterial levels */
+    --color-warning: #f57c00;          /* Orange for moderate levels */
+    --color-success: #388e3c;          /* Green for safe levels */
+    --color-info: #1976d2;             /* Blue for information */
+    
+    /* River/water themed colors */
+    --color-river-blue: #2e7d99;
+    --color-water-light: #e1f5fe;
+    --color-shore-sand: #f5e6d3;
+    
+    /* Spacing system */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
 }
 
 @layer base {
@@ -74,5 +86,32 @@
         --btn-font-size: 1.125rem;
         --btn-px: 1.5rem;
         --btn-py: 1.125rem;
+    }
+
+    /* Water quality result indicators */
+    .result-safe {
+        @apply bg-success/10 text-success border border-success/20 rounded px-2 py-1 text-sm font-medium;
+    }
+    
+    .result-moderate {
+        @apply bg-warning/10 text-warning border border-warning/20 rounded px-2 py-1 text-sm font-medium;
+    }
+    
+    .result-high {
+        @apply bg-danger/10 text-danger border border-danger/20 rounded px-2 py-1 text-sm font-medium;
+    }
+
+    /* Cards and containers */
+    .card {
+        @apply bg-white rounded-lg shadow-md border border-gray-200 p-6;
+    }
+    
+    .site-card {
+        @apply bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow cursor-pointer;
+    }
+
+    /* Skip navigation for accessibility */
+    .skip-nav {
+        @apply absolute top-0 left-0 bg-primary text-primary-content px-4 py-2 -translate-y-full focus:translate-y-0 transition-transform z-50;
     }
 }

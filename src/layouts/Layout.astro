@@ -7,28 +7,70 @@ import Footer from '../components/Footer.astro';
 
 interface Props {
     title: string;
+    description?: string;
+    canonical?: string;
+    ogImage?: string;
 }
 
-const { title } = Astro.props;
+const { title, description, canonical, ogImage } = Astro.props;
+
+const siteTitle = title === 'Drip Drip Tamar' ? title : `${title} | Drip Drip Tamar`;
+const defaultDescription = 'Community water quality monitoring for the Tamar River. Real-time bacterial test results to help swimmers, paddlers, and anglers make informed decisions about water safety.';
+const pageDescription = description || defaultDescription;
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://dripdrip.tamar.org.uk';
+const canonicalUrl = canonical || Astro.url.href;
+const ogImageUrl = ogImage || `${siteUrl}/images/og-default.jpg`;
 ---
 
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>{title}</title>
-        <meta name="viewport" content="width=device-width" />
+        <title>{siteTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="generator" content={Astro.generator} />
+        
+        <!-- Canonical URL -->
+        <link rel="canonical" href={canonicalUrl} />
+        
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:title" content={siteTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:image" content={ogImageUrl} />
+        <meta property="og:site_name" content="Drip Drip Tamar" />
+        
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={canonicalUrl} />
+        <meta property="twitter:title" content={siteTitle} />
+        <meta property="twitter:description" content={pageDescription} />
+        <meta property="twitter:image" content={ogImageUrl} />
+        
+        <!-- Favicons -->
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        
+        <!-- Fonts -->
         <link rel="preload" as="font" type="font/woff2" href={interWoff2} crossorigin />
+        
+        <!-- Theme color for mobile browsers -->
+        <meta name="theme-color" content="#005eb8" />
     </head>
-    <body class="antialiased text-white bg-complementary">
-        <div class="flex flex-col min-h-screen px-6 bg-noise sm:px-12">
-            <div class="flex flex-col w-full max-w-5xl mx-auto grow">
-                <Header />
-                <main class="grow"><slot /></main>
-                <Footer />
-            </div>
+    <body class="antialiased text-gray-900 bg-gray-50">
+        <!-- Skip navigation for accessibility -->
+        <a href="#main-content" class="skip-nav">Skip to main content</a>
+        
+        <div class="flex flex-col min-h-screen">
+            <Header />
+            <main id="main-content" class="flex-1 px-4 py-6 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto">
+                    <slot />
+                </div>
+            </main>
+            <Footer />
         </div>
     </body>
 </html>

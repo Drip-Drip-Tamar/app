@@ -1,21 +1,128 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ContextAlert from '../components/ContextAlert.astro';
-import Markdown from '../components/Markdown.astro';
+import { sql } from '../utils/db';
 
-const explainer = `
-An Astro website can go way beyond static pages - on the right platform.
-
-Netlify supports not only [Streaming SSR](https://docs.astro.build/en/guides/server-side-rendering/#html-streaming) and fast [Edge Middleware](https://docs.astro.build/en/guides/middleware/), but also [on-demand revalidation](https://www.netlify.com/blog/cache-tags-and-purge-api-on-netlify/) and [stale-while-revalidate](https://www.netlify.com/blog/swr-and-fine-grained-cache-control/). 
-Any page or data can be rebuilt only when needed, without site visitors ever getting a performance hit.
-`;
+// Get latest sample date for display
+let latestSampleDate: string | null = null;
+try {
+  const result = await sql`
+    SELECT MAX(sampled_at) as latest_date 
+    FROM samples
+  `;
+  if (result[0]?.latest_date) {
+    latestSampleDate = new Date(result[0].latest_date).toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long', 
+      year: 'numeric'
+    });
+  }
+} catch (error) {
+  console.error('Error fetching latest sample date:', error);
+}
 ---
 
-<Layout title="Welcome to Astro.">
-    <ContextAlert class="mb-8" />
-    <h1 class="mb-10">Netlify Platform Starter for Astro</h1>
-    <Markdown content={explainer} class="mb-10 text-lg" />
-    <p>
-        <a href="https://docs.netlify.com/frameworks/astro/" class="btn btn-lg sm:min-w-64">Read the Docs</a>
-    </p>
+<Layout 
+  title="Drip Drip Tamar"
+  description="Community water quality monitoring for the Tamar River. Real-time bacterial test results to help swimmers, paddlers, and anglers make informed decisions about water safety."
+>
+  <div class="space-y-12">
+    <!-- Hero Section -->
+    <section class="text-center py-12">
+      <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+        Drip Drip Tamar
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+        Community water quality monitoring for the Tamar River. 
+        Real-time bacterial test results to help local swimmers, paddlers, and anglers 
+        make informed decisions about water safety.
+      </p>
+      
+      {latestSampleDate && (
+        <div class="inline-flex items-center bg-blue-50 border border-blue-200 rounded-lg px-4 py-2 text-blue-800">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Last updated: {latestSampleDate}
+        </div>
+      )}
+    </section>
+
+    <!-- Main CTAs -->
+    <section class="grid md:grid-cols-3 gap-8">
+      <div class="card text-center">
+        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+        </div>
+        <h2 class="text-xl font-semibold mb-3">View Results</h2>
+        <p class="text-gray-600 mb-4">
+          Check the latest water quality readings from our monitoring sites along the Tamar River.
+        </p>
+        <a href="/results" class="btn">
+          View Water Quality Data
+        </a>
+      </div>
+
+      <div class="card text-center">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+          </svg>
+        </div>
+        <h2 class="text-xl font-semibold mb-3">Latest News</h2>
+        <p class="text-gray-600 mb-4">
+          Read updates about our monitoring programme, environmental conditions, and community events.
+        </p>
+        <a href="/news" class="btn">
+          Read News & Updates
+        </a>
+      </div>
+
+      <div class="card text-center">
+        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h2 class="text-xl font-semibold mb-3">About the Project</h2>
+        <p class="text-gray-600 mb-4">
+          Learn about our community-led water quality monitoring and how the data can help keep you safe.
+        </p>
+        <a href="/about" class="btn">
+          Learn More
+        </a>
+      </div>
+    </section>
+
+    <!-- Rainfall Explainer -->
+    <section class="bg-white rounded-lg border p-8">
+      <h2 class="text-2xl font-bold mb-4 text-gray-900">Understanding Water Quality Results</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-3 text-gray-800">Why rainfall matters</h3>
+          <p class="text-gray-600 mb-4">
+            Heavy rainfall can wash pollutants from land into the river, temporarily increasing bacterial levels. 
+            We track rainfall data alongside our bacterial measurements to help interpret the results.
+          </p>
+          <p class="text-gray-600">
+            Generally, water quality is best during dry periods and may be compromised for 24-72 hours after significant rainfall.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-3 text-gray-800">What we measure</h3>
+          <ul class="space-y-2 text-gray-600">
+            <li class="flex items-start">
+              <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+              <span><strong>E. coli:</strong> Indicates faecal contamination from sewage or agricultural runoff</span>
+            </li>
+            <li class="flex items-start">
+              <span class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+              <span><strong>Intestinal Enterococci:</strong> More persistent bacteria, useful for assessing marine water quality</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
 </Layout>

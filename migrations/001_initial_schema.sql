@@ -51,7 +51,7 @@ CREATE INDEX idx_sites_slug ON sites(slug);
 -- Initial sites for the Tamar River monitoring project
 INSERT INTO sites (slug, name, lat, lng, notes) VALUES
     ('okel-tor', 'Okel Tor', 50.5167, -4.2167, 'Popular swimming spot near Callington'),
-    ('calstock', 'Calstock', 50.5167, -4.2000, 'Village quay area on the Tamar River');
+    ('calstock', 'Calstock Quay', 50.5167, -4.2000, 'Village quay area on the Tamar River');
 
 -- Sample test data for development and testing
 -- Adding realistic E. coli and Enterococci readings

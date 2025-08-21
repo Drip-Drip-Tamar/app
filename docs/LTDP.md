@@ -5,7 +5,7 @@
 ### Prerequisites Check
 
 - [x] Verify Astro starter kit is cloned and running locally
-- [ ] Confirm Neon database connection string is available
+- [x] Confirm Neon database connection string is available
 - [ ] Verify Netlify account has repository connected
 - [x] Check Node.js version ≥ 18.14.1
 
@@ -19,11 +19,11 @@
   ```
 - [x] Create `.env.example` with same keys but no values
 - [x] Add `.env.local` to `.gitignore`
-- [ ] Test environment variables load correctly
+- [x] Test environment variables load correctly
 
 ### Database Schema Setup
 
-- [ ] Connect to Neon database
+- [x] Connect to Neon database
 - [x] Create migration file: `001_initial_schema.sql`
 - [x] Execute schema creation:
 
@@ -95,12 +95,12 @@
 
 ### Astro Configuration
 
-- [ ] Update `astro.config.mjs`:
-  - [ ] Set site URL
-  - [ ] Configure build output
-  - [ ] Add image optimization settings
-- [ ] Create base layout: `src/layouts/BaseLayout.astro`
-- [ ] Add CSS variables in `src/styles/global.css`:
+- [x] Update `astro.config.mjs`:
+  - [x] Set site URL
+  - [x] Configure build output
+  - [x] Add image optimization settings
+- [x] Create base layout: `src/layouts/Layout.astro`
+- [x] Add CSS variables in `src/styles/global.css`:
   ```css
   :root {
     --color-primary: #005eb8;
@@ -110,8 +110,8 @@
     --spacing-unit: 0.5rem;
   }
   ```
-- [ ] Create responsive grid system (no framework)
-- [ ] Implement skip navigation link
+- [x] Create responsive grid system (no framework)
+- [x] Implement skip navigation link
 
 ### Content Structure
 
@@ -124,11 +124,11 @@
 
 ### Public Pages Implementation
 
-- [ ] Create `src/pages/index.astro` (Front page):
-  - [ ] Mission statement section
-  - [ ] Latest sample date component
-  - [ ] Three CTAs (Results, News, About)
-  - [ ] Rainfall explainer paragraph
+- [x] Create `src/pages/index.astro` (Front page):
+  - [x] Mission statement section
+  - [x] Latest sample date component
+  - [x] Three CTAs (Results, News, About)
+  - [x] Rainfall explainer paragraph
 - [ ] Create `src/pages/news/index.astro`:
   - [ ] List layout with pagination
   - [ ] Article preview component
@@ -182,13 +182,13 @@
 
 ### Public API Endpoints
 
-- [ ] Create `netlify/functions/site-series.js`:
-  - [ ] Validate slug parameter
-  - [ ] Parse date range parameters
-  - [ ] Query database with proper joins
-  - [ ] Format response as specified JSON
-  - [ ] Add Cache-Control header (300s)
-  - [ ] Handle errors with proper status codes
+- [x] Create `src/pages/api/site-series.ts`:
+  - [x] Validate slug parameter
+  - [x] Parse date range parameters
+  - [x] Query database with proper joins
+  - [x] Format response as specified JSON
+  - [x] Add Cache-Control header (300s)
+  - [x] Handle errors with proper status codes
 - [ ] Create `netlify/functions/export-csv.js`:
   - [ ] Reuse site-series logic
   - [ ] Convert to CSV format
