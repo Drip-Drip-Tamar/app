@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+import Alert from '../components/Alert.astro';
+---
+
+<Layout title="Offline - Connection Required">
+  <div class="flex items-center justify-center min-h-[60vh]">
+    <Card class="max-w-md text-center">
+      <div class="text-6xl mb-6">📡</div>
+      
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">
+        You're Offline
+      </h1>
+      
+      <p class="text-gray-600 mb-6">
+        This page requires an internet connection to load the latest water quality data.
+      </p>
+
+      <Alert type="warning" class="mb-6 text-left">
+        <strong>Getting back online:</strong>
+        <ul class="mt-2 text-sm space-y-1">
+          <li>• Check your WiFi or mobile data</li>
+          <li>• Try moving to an area with better signal</li>
+          <li>• Refresh the page once connected</li>
+        </ul>
+      </Alert>
+      
+      <div class="space-y-3">
+        <Button 
+          href="javascript:location.reload()" 
+          class="w-full"
+        >
+          Try Again
+        </Button>
+        
+        <Button href="/" variant="secondary" class="w-full">
+          Go to Homepage
+        </Button>
+      </div>
+      
+      <div class="mt-6 pt-6 border-t border-gray-200">
+        <p class="text-sm text-gray-500">
+          <strong>Note:</strong> Water quality data is updated regularly and requires 
+          a live connection for accuracy. For emergencies, contact local authorities.
+        </p>
+      </div>
+    </Card>
+  </div>
+</Layout>
+
+<script>
+  // Auto-retry when connection is restored
+  window.addEventListener('online', function() {
+    // Wait a moment then reload to get fresh data
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  });
+  
+  // Update the page if we're actually online
+  if (navigator.onLine) {
+    // User navigated to offline page but is actually online
+    // Redirect to home page
+    window.location.href = '/';
+  }
+</script>

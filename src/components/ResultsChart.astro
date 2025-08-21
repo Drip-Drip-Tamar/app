@@ -38,22 +38,12 @@ const { siteSlug, class: className = '' } = Astro.props;
   
   <!-- Chart controls -->
   <div class="flex gap-2 mt-4">
-    <button class="chart-filter-btn active" data-period="3">3 months</button>
-    <button class="chart-filter-btn" data-period="6">6 months</button>
-    <button class="chart-filter-btn" data-period="12">12 months</button>
-    <button class="chart-filter-btn" data-period="all">All</button>
+    <button class="px-3 py-1 text-sm bg-primary text-white rounded hover:bg-blue-700 transition-colors" data-period="3">3 months</button>
+    <button class="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors" data-period="6">6 months</button>
+    <button class="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors" data-period="12">12 months</button>
+    <button class="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors" data-period="all">All</button>
   </div>
 </div>
-
-<style>
-.chart-filter-btn {
-  @apply px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors;
-}
-
-.chart-filter-btn.active {
-  @apply bg-primary text-white;
-}
-</style>
 
 <script define:vars={{ siteSlug }}>
   // Import Chart.js dynamically to handle client-side loading
@@ -70,11 +60,14 @@ const { siteSlug, class: className = '' } = Astro.props;
   
   function setupEventListeners() {
     // Date filter buttons
-    document.querySelectorAll('.chart-filter-btn').forEach(btn => {
+    document.querySelectorAll('[data-period]').forEach(btn => {
       btn.addEventListener('click', function() {
-        // Update active state
-        document.querySelectorAll('.chart-filter-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
+        // Update active state - reset all buttons to gray
+        document.querySelectorAll('[data-period]').forEach(b => {
+          b.className = 'px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors';
+        });
+        // Set active button to primary
+        this.className = 'px-3 py-1 text-sm bg-primary text-white rounded hover:bg-blue-700 transition-colors';
         
         // Update period and reload data
         currentPeriod = this.dataset.period;

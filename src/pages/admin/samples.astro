@@ -86,7 +86,7 @@ try {
   `;
   
   const countResult = await sql.unsafe(countQuery, queryParams);
-  totalSamples = parseInt(countResult[0].count);
+  totalSamples = countResult && countResult[0] ? parseInt(countResult[0].count) : 0;
 
   // Get samples with results
   const samplesQuery = `

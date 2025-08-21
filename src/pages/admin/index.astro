@@ -43,7 +43,7 @@ try {
   const totalResult = await sql`
     SELECT COUNT(*) as count FROM samples
   `;
-  totalSamples = totalResult[0].count;
+  totalSamples = totalResult && totalResult[0] ? parseInt(totalResult[0].count) : 0;
 
 } catch (error) {
   console.error('Error loading admin data:', error);

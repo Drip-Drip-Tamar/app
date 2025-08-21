@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+---
+
+<Layout title="Page Not Found - 404">
+  <div class="flex items-center justify-center min-h-[60vh]">
+    <Card class="max-w-md text-center">
+      <div class="text-6xl mb-6">🌊</div>
+      
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">
+        Page Not Found
+      </h1>
+      
+      <p class="text-gray-600 mb-6">
+        Sorry, we couldn't find the page you're looking for. 
+        The page may have been moved or doesn't exist.
+      </p>
+      
+      <div class="space-y-3">
+        <Button href="/" class="w-full">
+          Go to Homepage
+        </Button>
+        
+        <div class="flex gap-2">
+          <Button href="/results/" variant="secondary" size="sm" class="flex-1">
+            View Results
+          </Button>
+          <Button href="/news/" variant="secondary" size="sm" class="flex-1">
+            Latest News
+          </Button>
+        </div>
+      </div>
+      
+      <div class="mt-6 pt-6 border-t border-gray-200">
+        <p class="text-sm text-gray-500">
+          If you think this is an error, please 
+          <a href="/contact" class="text-primary hover:underline">contact us</a>.
+        </p>
+      </div>
+    </Card>
+  </div>
+</Layout>

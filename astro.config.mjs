@@ -10,7 +10,10 @@ export default defineConfig({
         plugins: [tailwindcss()]
     },
     integrations: [react()],
-    adapter: netlify(),
+    adapter: netlify({
+        edgeMiddleware: false,
+        functionPerRoute: false
+    }),
     output: 'server',
     image: {
         service: {
