@@ -4,28 +4,28 @@
 
 ### Prerequisites Check
 
-- [ ] Verify Astro starter kit is cloned and running locally
+- [x] Verify Astro starter kit is cloned and running locally
 - [ ] Confirm Neon database connection string is available
 - [ ] Verify Netlify account has repository connected
-- [ ] Check Node.js version ≥ 18.14.1
+- [x] Check Node.js version ≥ 18.14.1
 
 ### Environment Configuration
 
-- [ ] Create `.env.local` file with:
+- [x] Create `.env.local` file with:
   ```
   DATABASE_URL=
   PUBLIC_SITE_URL=
   NETLIFY_IDENTITY_URL=
   ```
-- [ ] Create `.env.example` with same keys but no values
-- [ ] Add `.env.local` to `.gitignore`
+- [x] Create `.env.example` with same keys but no values
+- [x] Add `.env.local` to `.gitignore`
 - [ ] Test environment variables load correctly
 
 ### Database Schema Setup
 
 - [ ] Connect to Neon database
-- [ ] Create migration file: `001_initial_schema.sql`
-- [ ] Execute schema creation:
+- [x] Create migration file: `001_initial_schema.sql`
+- [x] Execute schema creation:
 
   ```sql
   CREATE EXTENSION IF NOT EXISTS pgcrypto;
@@ -64,14 +64,14 @@
   CREATE INDEX idx_samples_site_date ON samples(site_id, sampled_at DESC);
   ```
 
-- [ ] Seed initial sites:
+- [x] Seed initial sites:
   ```sql
   INSERT INTO sites (slug, name) VALUES
     ('okel-tor', 'Okel Tor'),
     ('calstock', 'Calstock');
   ```
-- [ ] Verify tables created successfully
-- [ ] Add sample test data (at least 10 samples per site)
+- [x] Verify tables created successfully
+- [x] Add sample test data (at least 10 samples per site)
 
 ### Database Semantics
 
@@ -88,8 +88,8 @@
   - [ ] Confirmation template
   - [ ] Recovery template
 - [ ] Set site URL in Identity settings
-- [ ] Add `netlify-identity-widget` to package.json
-- [ ] Create Identity initialization script
+- [x] Add `netlify-identity-widget` to package.json
+- [x] Create Identity initialization script
 
 ## Phase 2: Static Site Structure (Day 2-3)
 
@@ -165,8 +165,8 @@
 
 ### Netlify Functions Setup
 
-- [ ] Create `netlify/functions/` directory
-- [ ] Install dependencies:
+- [x] Create `netlify/functions/` directory
+- [x] Install dependencies:
   ```json
   "@neondatabase/serverless": "latest",
   "date-fns": "latest"
@@ -174,7 +174,7 @@
 
 ### Database Connection Helper
 
-- [ ] Create `netlify/functions/utils/db.js`:
+- [x] Create `netlify/functions/utils/db.js`:
   ```javascript
   import { neon } from '@neondatabase/serverless';
   export const sql = neon(process.env.DATABASE_URL);
@@ -197,7 +197,7 @@
 
 ### Protected API Endpoints
 
-- [ ] Create `netlify/functions/utils/auth.js`:
+- [x] Create `netlify/functions/utils/auth.js`:
   ```javascript
   export function verifyToken(event) {
     const { identity, user } = event.context.clientContext;
@@ -231,7 +231,7 @@
 
 ### Chart.js Integration
 
-- [ ] Install Chart.js: `npm install chart.js`
+- [x] Install Chart.js: `npm install chart.js`
 - [ ] Create `src/components/ResultsChart.astro`:
   - [ ] Island directive for client-side
   - [ ] Responsive container
