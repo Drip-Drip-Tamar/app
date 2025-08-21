@@ -1,0 +1,84 @@
+---
+export interface Props {
+  class?: string;
+  sortable?: boolean;
+}
+
+const { 
+  class: className = '',
+  sortable = false,
+  ...props 
+} = Astro.props;
+
+const allClasses = ['table', className].filter(Boolean).join(' ');
+---
+
+<div class="overflow-x-auto">
+  <table class={allClasses} {...props}>
+    <slot />
+  </table>
+</div>
+
+{sortable && (
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const table = document.querySelector('.table');
+      if (!table) return;
+
+      const headers = table.querySelectorAll('th');
+      
+      headers.forEach((header, index) => {
+        header.style.cursor = 'pointer';
+        header.style.userSelect = 'none';
+        
+        // Add sort indicator
+        header.innerHTML += ' <span class="sort-indicator text-xs text-gray-400">↕️</span>';
+        
+        header.addEventListener('click', () => {
+          sortTable(table, index);
+        });
+      });
+    });
+
+    function sortTable(table, columnIndex) {
+      const tbody = table.querySelector('tbody');
+      if (!tbody) return;
+      
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      const isAscending = table.getAttribute('data-sort-dir') !== 'asc';
+      
+      rows.sort((a, b) => {
+        const aText = a.cells[columnIndex]?.textContent?.trim() || '';
+        const bText = b.cells[columnIndex]?.textContent?.trim() || '';
+        
+        // Try to parse as numbers first
+        const aNum = parseFloat(aText);
+        const bNum = parseFloat(bText);
+        
+        if (!isNaN(aNum) && !isNaN(bNum)) {
+          return isAscending ? aNum - bNum : bNum - aNum;
+        }
+        
+        // Fall back to string comparison
+        return isAscending ? aText.localeCompare(bText) : bText.localeCompare(aText);
+      });
+      
+      // Clear and re-append sorted rows
+      tbody.innerHTML = '';
+      rows.forEach(row => tbody.appendChild(row));
+      
+      // Update sort direction
+      table.setAttribute('data-sort-dir', isAscending ? 'asc' : 'desc');
+      
+      // Update sort indicators
+      const headers = table.querySelectorAll('th .sort-indicator');
+      headers.forEach((indicator, index) => {
+        if (index === columnIndex) {
+          indicator.textContent = isAscending ? '↑' : '↓';
+        } else {
+          indicator.textContent = '↕️';
+        }
+      });
+    }
+  </script>
+)}
