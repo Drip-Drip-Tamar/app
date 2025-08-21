@@ -1,0 +1,530 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Card from '../../components/Card.astro';
+import Button from '../../components/Button.astro';
+import Alert from '../../components/Alert.astro';
+---
+
+<Layout title="Admin Help - Drip Drip Tamar">
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Navigation -->
+    <nav class="mb-8">
+      <div class="flex items-center gap-4">
+        <a href="/admin/" class="text-primary hover:underline text-sm font-medium">
+          ← Admin Dashboard
+        </a>
+        <span class="text-gray-300">|</span>
+        <span class="text-sm text-gray-600">Help Documentation</span>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900 mb-4">
+        📚 Admin Help & Documentation
+      </h1>
+      <p class="text-gray-600">
+        Everything you need to know about managing water quality data and content.
+      </p>
+    </header>
+
+    <!-- Quick Access -->
+    <div class="grid md:grid-cols-3 gap-6 mb-8">
+      <Card>
+        <div class="text-center">
+          <div class="text-2xl mb-3">🧪</div>
+          <h3 class="font-semibold text-gray-900 mb-2">Sample Logging</h3>
+          <p class="text-sm text-gray-600 mb-3">
+            Learn how to record test results
+          </p>
+          <a href="#logging-samples" class="text-primary hover:underline text-sm">
+            Jump to Guide →
+          </a>
+        </div>
+      </Card>
+
+      <Card>
+        <div class="text-center">
+          <div class="text-2xl mb-3">📊</div>
+          <h3 class="font-semibold text-gray-900 mb-2">Understanding Data</h3>
+          <p class="text-sm text-gray-600 mb-3">
+            What the numbers mean
+          </p>
+          <a href="#data-guidelines" class="text-primary hover:underline text-sm">
+            Jump to Guide →
+          </a>
+        </div>
+      </Card>
+
+      <Card>
+        <div class="text-center">
+          <div class="text-2xl mb-3">📝</div>
+          <h3 class="font-semibold text-gray-900 mb-2">Content Management</h3>
+          <p class="text-sm text-gray-600 mb-3">
+            Editing news and pages
+          </p>
+          <a href="#content-management" class="text-primary hover:underline text-sm">
+            Jump to Guide →
+          </a>
+        </div>
+      </Card>
+    </div>
+
+    <!-- Getting Started -->
+    <Card class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">
+        🚀 Getting Started
+      </h2>
+      
+      <div class="space-y-4">
+        <div>
+          <h3 class="font-medium text-gray-900 mb-2">How to Log In</h3>
+          <ol class="text-sm text-gray-600 space-y-1 ml-4">
+            <li>1. Navigate to the admin section</li>
+            <li>2. Click "Log In" when prompted</li>
+            <li>3. Use your email and password (invite-only access)</li>
+            <li>4. You'll be redirected to the admin dashboard</li>
+          </ol>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-2">User Roles</h3>
+          <ul class="text-sm text-gray-600 space-y-1 ml-4">
+            <li><strong>Contributor:</strong> Log and manage water quality samples</li>
+            <li><strong>Editor:</strong> Contributor access + edit news posts and pages</li>
+            <li><strong>Steward:</strong> Editor access + manage user accounts</li>
+          </ul>
+        </div>
+      </div>
+    </Card>
+
+    <!-- Logging Samples -->
+    <Card class="mb-8" id="logging-samples">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">
+        🧪 Logging Water Quality Samples
+      </h2>
+      
+      <div class="space-y-6">
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Step-by-Step Process</h3>
+          <ol class="text-sm text-gray-600 space-y-2 ml-4">
+            <li>1. <strong>Navigate to Log Sample:</strong> From the dashboard, click "Log Sample"</li>
+            <li>2. <strong>Select Site:</strong> Choose from Okel Tor or Calstock</li>
+            <li>3. <strong>Enter Date & Time:</strong> When the sample was taken (defaults to now)</li>
+            <li>4. <strong>Record Bacterial Counts:</strong> Enter E. coli and Enterococci readings</li>
+            <li>5. <strong>Add Rainfall Data:</strong> Include 24h and 72h rainfall if available</li>
+            <li>6. <strong>Add Notes:</strong> Any relevant observations or conditions</li>
+            <li>7. <strong>Review & Submit:</strong> Check all data before saving</li>
+          </ol>
+        </div>
+
+        <Alert type="info">
+          <strong>📱 Mobile Tip:</strong> The form is optimized for mobile use. You can log samples directly from the field on your phone or tablet.
+        </Alert>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Required Fields</h3>
+          <ul class="text-sm text-gray-600 space-y-1 ml-4">
+            <li><strong>Site:</strong> Must select Okel Tor or Calstock</li>
+            <li><strong>Date & Time:</strong> When the sample was collected</li>
+            <li><strong>E. coli count:</strong> In CFU/100ml (Colony Forming Units per 100ml)</li>
+            <li><strong>Enterococci count:</strong> In CFU/100ml</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Optional Fields</h3>
+          <ul class="text-sm text-gray-600 space-y-1 ml-4">
+            <li><strong>24h Rainfall:</strong> Total rainfall in past 24 hours (mm)</li>
+            <li><strong>72h Rainfall:</strong> Total rainfall in past 72 hours (mm)</li>
+            <li><strong>Notes:</strong> Weather conditions, water appearance, incidents, etc.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Data Entry Tips</h3>
+          <ul class="text-sm text-gray-600 space-y-1 ml-4">
+            <li>• Record samples as soon as possible after testing</li>
+            <li>• Double-check bacterial counts before submitting</li>
+            <li>• Include weather conditions if they might affect readings</li>
+            <li>• Check for duplicates - the system will warn if a sample exists for the same site and date</li>
+            <li>• Values over 1000 CFU/100ml will trigger a warning (this is normal for high readings)</li>
+          </ul>
+        </div>
+      </div>
+    </Card>
+
+    <!-- Data Guidelines -->
+    <Card class="mb-8" id="data-guidelines">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">
+        📊 Understanding Water Quality Data
+      </h2>
+      
+      <div class="space-y-6">
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">What We Measure</h3>
+          <div class="space-y-3">
+            <div>
+              <h4 class="font-medium text-gray-800">E. coli (Escherichia coli)</h4>
+              <p class="text-sm text-gray-600">
+                Bacteria found in human and animal intestines. High levels indicate fecal contamination 
+                and potential presence of harmful pathogens.
+              </p>
+            </div>
+            <div>
+              <h4 class="font-medium text-gray-800">Intestinal Enterococci</h4>
+              <p class="text-sm text-gray-600">
+                Another indicator of fecal pollution. These bacteria are more persistent in seawater 
+                than E. coli, making them useful for coastal water monitoring.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Safety Guidelines</h3>
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+              <div class="font-medium text-green-800 mb-1">Safe (&lt; 100 CFU/100ml)</div>
+              <div class="text-sm text-green-700">
+                Good water quality. Safe for swimming and water sports.
+              </div>
+            </div>
+            <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+              <div class="font-medium text-yellow-800 mb-1">Caution (100-1000 CFU/100ml)</div>
+              <div class="text-sm text-yellow-700">
+                Moderate risk. Consider avoiding water contact.
+              </div>
+            </div>
+            <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+              <div class="font-medium text-red-800 mb-1">Poor (&gt; 1000 CFU/100ml)</div>
+              <div class="text-sm text-red-700">
+                High risk. Avoid all water contact activities.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Factors Affecting Water Quality</h3>
+          <ul class="text-sm text-gray-600 space-y-1 ml-4">
+            <li><strong>Rainfall:</strong> Heavy rain can wash contaminants into the river</li>
+            <li><strong>Tidal conditions:</strong> High tide can bring marine water upstream</li>
+            <li><strong>Sewage overflows:</strong> Can occur during heavy rainfall events</li>
+            <li><strong>Agricultural runoff:</strong> Livestock and fertilizers can contribute</li>
+            <li><strong>Wildlife:</strong> Natural sources of bacteria from birds and animals</li>
+            <li><strong>Temperature:</strong> Warmer water can promote bacterial growth</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Interpreting Results</h3>
+          <ul class="text-sm text-gray-600 space-y-1 ml-4">
+            <li>• Look for trends over time rather than single readings</li>
+            <li>• Consider recent weather when interpreting high readings</li>
+            <li>• Compare readings between sites to identify sources</li>
+            <li>• Note that bacterial levels can change rapidly</li>
+            <li>• Results represent conditions at the time of sampling only</li>
+          </ul>
+        </div>
+      </div>
+    </Card>
+
+    <!-- Content Management -->
+    <Card class="mb-8" id="content-management">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">
+        📝 Content Management
+      </h2>
+      
+      <div class="space-y-6">
+        <Alert type="info">
+          <strong>Note:</strong> Content editing requires Editor or Steward role.
+        </Alert>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Accessing the Content Manager</h3>
+          <ol class="text-sm text-gray-600 space-y-1 ml-4">
+            <li>1. From the admin dashboard, click "Content Manager"</li>
+            <li>2. You'll be taken to the Decap CMS interface</li>
+            <li>3. Log in using the same credentials as the admin area</li>
+            <li>4. You'll see collections for News and Pages</li>
+          </ol>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Creating News Posts</h3>
+          <ol class="text-sm text-gray-600 space-y-1 ml-4">
+            <li>1. Click "News" in the sidebar</li>
+            <li>2. Click "New News" button</li>
+            <li>3. Fill in the title, date, and summary</li>
+            <li>4. Add a featured image (optional)</li>
+            <li>5. Write the main content using Markdown</li>
+            <li>6. Click "Publish" to make it live</li>
+          </ol>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Editing Pages</h3>
+          <ul class="text-sm text-gray-600 space-y-1 ml-4">
+            <li>• <strong>About Page:</strong> Information about the project and team</li>
+            <li>• <strong>Contact Page:</strong> How to get in touch</li>
+            <li>• <strong>Tamar River Page:</strong> Background information about the river</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Markdown Basics</h3>
+          <div class="bg-gray-50 p-4 rounded-lg text-sm">
+            <div class="font-mono text-gray-700 space-y-1">
+              <div># Heading 1</div>
+              <div>## Heading 2</div>
+              <div>**Bold text**</div>
+              <div>*Italic text*</div>
+              <div>[Link text](http://example.com)</div>
+              <div>![Image](path/to/image.jpg)</div>
+              <div>- Bullet point</div>
+              <div>1. Numbered list</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+
+    <!-- Sample Management -->
+    <Card class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">
+        🔧 Sample Management
+      </h2>
+      
+      <div class="space-y-6">
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Viewing All Samples</h3>
+          <ul class="text-sm text-gray-600 space-y-1 ml-4">
+            <li>• Access via "View All Samples" from the dashboard</li>
+            <li>• Filter by site, date range, or both</li>
+            <li>• Results are paginated (20 samples per page)</li>
+            <li>• Click column headers to sort data</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Editing Samples</h3>
+          <ol class="text-sm text-gray-600 space-y-1 ml-4">
+            <li>1. Find the sample in the samples list</li>
+            <li>2. Click the "Edit" button</li>
+            <li>3. Make your changes</li>
+            <li>4. Review carefully before saving</li>
+            <li>5. Changes are saved immediately</li>
+          </ol>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Deleting Samples</h3>
+          <Alert type="warning" class="mb-3">
+            <strong>Warning:</strong> Deletion is permanent and cannot be undone.
+          </Alert>
+          <ol class="text-sm text-gray-600 space-y-1 ml-4">
+            <li>1. Find the sample in the samples list</li>
+            <li>2. Click the "Delete" button</li>
+            <li>3. Confirm the deletion in the popup</li>
+            <li>4. The sample and all its results are removed</li>
+          </ol>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">When to Edit or Delete</h3>
+          <ul class="text-sm text-gray-600 space-y-1 ml-4">
+            <li><strong>Edit when:</strong> Correcting data entry errors, adding missing information</li>
+            <li><strong>Delete when:</strong> Sample was logged incorrectly, duplicate entries</li>
+            <li><strong>Before editing:</strong> Double-check you have the right sample</li>
+            <li><strong>Before deleting:</strong> Consider if editing would be more appropriate</li>
+          </ul>
+        </div>
+      </div>
+    </Card>
+
+    <!-- Troubleshooting -->
+    <Card class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">
+        🛠️ Troubleshooting
+      </h2>
+      
+      <div class="space-y-6">
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Common Issues</h3>
+          
+          <div class="space-y-4">
+            <div>
+              <h4 class="font-medium text-gray-800">Can't log in</h4>
+              <ul class="text-sm text-gray-600 space-y-1 ml-4">
+                <li>• Check your email and password are correct</li>
+                <li>• Ensure you have an active account (invite-only)</li>
+                <li>• Try refreshing the page</li>
+                <li>• Contact a project steward if issues persist</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="font-medium text-gray-800">Form won't submit</h4>
+              <ul class="text-sm text-gray-600 space-y-1 ml-4">
+                <li>• Check all required fields are filled</li>
+                <li>• Ensure bacterial counts are positive numbers</li>
+                <li>• Verify the date format is correct</li>
+                <li>• Try refreshing and re-entering data</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="font-medium text-gray-800">Data looks wrong</h4>
+              <ul class="text-sm text-gray-600 space-y-1 ml-4">
+                <li>• Double-check your lab results</li>
+                <li>• Verify you selected the correct site</li>
+                <li>• Check the sample date and time</li>
+                <li>• Edit the sample if you find an error</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="font-medium text-gray-800">Can't access content manager</h4>
+              <ul class="text-sm text-gray-600 space-y-1 ml-4">
+                <li>• Ensure you have Editor or Steward role</li>
+                <li>• Try logging out and back in</li>
+                <li>• Check the URL is correct (/admin/)</li>
+                <li>• Contact a steward for role assignment</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-medium text-gray-900 mb-3">Best Practices</h3>
+          <ul class="text-sm text-gray-600 space-y-1 ml-4">
+            <li>• <strong>Regular backups:</strong> Data is automatically backed up</li>
+            <li>• <strong>Check recent entries:</strong> Look for patterns or anomalies</li>
+            <li>• <strong>Consistent timing:</strong> Try to sample at similar times</li>
+            <li>• <strong>Document conditions:</strong> Note weather, tides, incidents</li>
+            <li>• <strong>Quality control:</strong> Double-check all entries</li>
+          </ul>
+        </div>
+      </div>
+    </Card>
+
+    <!-- Glossary -->
+    <Card class="mb-8">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">
+        📖 Glossary
+      </h2>
+      
+      <div class="space-y-4">
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-medium text-gray-900 mb-3">Technical Terms</h3>
+            <dl class="text-sm space-y-2">
+              <div>
+                <dt class="font-medium text-gray-800">CFU/100ml</dt>
+                <dd class="text-gray-600">Colony Forming Units per 100 milliliters - how we measure bacterial concentration</dd>
+              </div>
+              <div>
+                <dt class="font-medium text-gray-800">E. coli</dt>
+                <dd class="text-gray-600">Escherichia coli - bacteria indicating fecal contamination</dd>
+              </div>
+              <div>
+                <dt class="font-medium text-gray-800">Enterococci</dt>
+                <dd class="text-gray-600">Intestinal enterococci - another indicator of sewage pollution</dd>
+              </div>
+              <div>
+                <dt class="font-medium text-gray-800">QA Flag</dt>
+                <dd class="text-gray-600">Quality assurance flag indicating data reliability</dd>
+              </div>
+            </dl>
+          </div>
+          
+          <div>
+            <h3 class="font-medium text-gray-900 mb-3">System Terms</h3>
+            <dl class="text-sm space-y-2">
+              <div>
+                <dt class="font-medium text-gray-800">Site Slug</dt>
+                <dd class="text-gray-600">URL-friendly site identifier (e.g., 'okel-tor')</dd>
+              </div>
+              <div>
+                <dt class="font-medium text-gray-800">Contributor</dt>
+                <dd class="text-gray-600">User who can log and manage water quality samples</dd>
+              </div>
+              <div>
+                <dt class="font-medium text-gray-800">Editor</dt>
+                <dd class="text-gray-600">User who can edit website content and manage samples</dd>
+              </div>
+              <div>
+                <dt class="font-medium text-gray-800">Steward</dt>
+                <dd class="text-gray-600">User with full administrative access</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </Card>
+
+    <!-- Contact -->
+    <Card>
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">
+        📞 Need More Help?
+      </h2>
+      
+      <div class="space-y-4">
+        <p class="text-gray-600">
+          If you can't find what you're looking for in this documentation, here are your options:
+        </p>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-medium text-gray-900 mb-2">For Technical Issues</h3>
+            <ul class="text-sm text-gray-600 space-y-1">
+              <li>• Contact the project technical lead</li>
+              <li>• Report bugs or system problems</li>
+              <li>• Request new features</li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 class="font-medium text-gray-900 mb-2">For Project Questions</h3>
+            <ul class="text-sm text-gray-600 space-y-1">
+              <li>• Contact project coordinators</li>
+              <li>• Ask about sampling protocols</li>
+              <li>• Discuss data interpretation</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="pt-4 border-t border-gray-200">
+          <Button href="/contact" variant="secondary">
+            Contact Information
+          </Button>
+        </div>
+      </div>
+    </Card>
+
+    <!-- Back to Dashboard -->
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <Button href="/admin/">
+        ← Back to Admin Dashboard
+      </Button>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* Smooth scrolling for anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Style for definition lists */
+  dt {
+    font-weight: 500;
+  }
+  
+  dd {
+    margin-left: 0;
+    margin-bottom: 0.5rem;
+  }
+</style>

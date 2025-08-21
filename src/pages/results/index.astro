@@ -1,0 +1,112 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// TODO: This will eventually pull from the database
+const sites = [
+  {
+    slug: 'okel-tor',
+    name: 'Okel Tor',
+    description: 'Upper Tamar sampling site near Launceston',
+    lastSample: '2025-01-18',
+    sampleCount: 127
+  },
+  {
+    slug: 'calstock',
+    name: 'Calstock',
+    description: 'Lower Tamar tidal sampling site',
+    lastSample: '2025-01-17', 
+    sampleCount: 134
+  }
+];
+---
+
+<Layout title="Water Quality Results - Drip Drip Tamar">
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 mb-4">
+        Water Quality Results
+      </h1>
+      <div class="prose prose-lg max-w-none text-gray-600">
+        <p>
+          Select a monitoring site below to view water quality results. We test for bacterial indicators 
+          that help assess the safety of water contact activities like swimming and paddling.
+        </p>
+        
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
+          <h3 class="text-lg font-semibold text-blue-900 mb-2">Understanding the Results</h3>
+          <ul class="text-blue-800 space-y-1">
+            <li><strong>E. coli</strong> - Bacterial indicator of fecal contamination</li>
+            <li><strong>Intestinal Enterococci</strong> - Additional bacterial indicator for coastal/estuarine waters</li>
+            <li><strong>Rainfall data</strong> - Heavy rain can increase bacterial levels significantly</li>
+          </ul>
+        </div>
+
+        <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
+          <h3 class="text-lg font-semibold text-amber-900 mb-2">Safety Guidelines</h3>
+          <div class="text-amber-800 space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="result-safe">Below 100 CFU/100ml</span>
+              <span>Lower risk for water contact</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="result-moderate">100-1000 CFU/100ml</span>
+              <span>Moderate risk - use caution</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="result-high">Above 1000 CFU/100ml</span>
+              <span>Higher risk - avoid water contact</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Monitoring Sites</h2>
+      <div class="grid gap-6 md:grid-cols-2">
+        {sites.map((site) => (
+          <a href={`/results/${site.slug}/`} class="site-card">
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">
+              {site.name}
+            </h3>
+            <p class="text-gray-600 mb-4">
+              {site.description}
+            </p>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-500">Last sample:</span>
+                <span class="font-medium">{site.lastSample}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Total samples:</span>
+                <span class="font-medium">{site.sampleCount}</span>
+              </div>
+            </div>
+            <div class="mt-4 text-primary font-medium text-sm">
+              View detailed results →
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="mt-12">
+      <div class="bg-gray-50 rounded-lg p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-3">
+          Need Help Interpreting Results?
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Water quality can vary significantly based on weather conditions, tidal state, 
+          and seasonal factors. If you have questions about specific results or what they 
+          mean for your activities, we're here to help.
+        </p>
+        <div class="flex gap-4">
+          <a href="/about/" class="btn">Learn More</a>
+          <a href="/contact/" class="btn bg-gray-200 text-gray-700 hover:bg-gray-300">
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

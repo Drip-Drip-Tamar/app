@@ -1,0 +1,20 @@
+---
+export interface Props {
+  variant?: 'default' | 'site';
+  class?: string;
+}
+
+const { 
+  variant = 'default',
+  class: className = '',
+  ...props 
+} = Astro.props;
+
+// Build CSS classes based on variant
+const baseClasses = variant === 'site' ? 'site-card' : 'card';
+const allClasses = [baseClasses, className].filter(Boolean).join(' ');
+---
+
+<div class={allClasses} {...props}>
+  <slot />
+</div>

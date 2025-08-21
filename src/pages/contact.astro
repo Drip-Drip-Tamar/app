@@ -1,0 +1,126 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contact Us - Drip Drip Tamar">
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 mb-4">
+        Contact Us
+      </h1>
+      <p class="text-lg text-gray-600">
+        Get in touch with the Drip Drip Tamar team
+      </p>
+    </header>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      <section>
+        <div class="card">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">
+            General Inquiries
+          </h2>
+          <div class="space-y-4">
+            <div>
+              <h3 class="font-medium text-gray-900 mb-2">Email</h3>
+              <p class="text-gray-600">
+                <a href="mailto:info@dripdrip.tamar.org.uk" class="text-primary hover:underline">
+                  info@dripdrip.tamar.org.uk
+                </a>
+              </p>
+            </div>
+            
+            <div>
+              <h3 class="font-medium text-gray-900 mb-2">Response Time</h3>
+              <p class="text-gray-600">
+                We aim to respond to all inquiries within 48 hours during weekdays.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="card">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">
+            Get Involved
+          </h2>
+          <div class="space-y-4">
+            <div>
+              <h3 class="font-medium text-gray-900 mb-2">Volunteer Sampling</h3>
+              <p class="text-gray-600 mb-2">
+                Interested in collecting water samples? We provide training and equipment.
+              </p>
+              <a href="mailto:volunteers@dripdrip.tamar.org.uk" class="text-primary hover:underline text-sm">
+                volunteers@dripdrip.tamar.org.uk
+              </a>
+            </div>
+            
+            <div>
+              <h3 class="font-medium text-gray-900 mb-2">Data & Research</h3>
+              <p class="text-gray-600 mb-2">
+                Academic researchers and environmental groups can access our full dataset.
+              </p>
+              <a href="mailto:data@dripdrip.tamar.org.uk" class="text-primary hover:underline text-sm">
+                data@dripdrip.tamar.org.uk
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="mt-8">
+      <div class="card">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">
+          About Our Water Quality Testing
+        </h2>
+        <div class="prose prose-lg max-w-none text-gray-600">
+          <p>
+            Our water quality monitoring follows established scientific protocols. We test for bacterial 
+            indicators (E. coli and Intestinal Enterococci) that help assess the safety of water contact 
+            activities.
+          </p>
+          
+          <h3 class="text-lg font-semibold text-gray-900 mt-6 mb-3">Questions About Results?</h3>
+          <p>
+            If you have questions about specific test results, methodology, or what the numbers mean 
+            for your water-based activities, please don't hesitate to get in touch. We're here to help 
+            you understand the data and make informed decisions about water safety.
+          </p>
+
+          <h3 class="text-lg font-semibold text-gray-900 mt-6 mb-3">Reporting Issues</h3>
+          <p>
+            If you notice pollution incidents, unusual conditions, or have concerns about water quality 
+            in the River Tamar, please contact us immediately. We work closely with the Environment Agency 
+            and other regulatory bodies.
+          </p>
+        </div>
+        
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <p class="text-sm text-gray-500">
+            <strong>Emergency pollution incidents:</strong> Contact the Environment Agency 24-hour hotline: 
+            <a href="tel:0800807060" class="text-primary hover:underline">0800 80 70 60</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-8">
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+        <h3 class="text-lg font-semibold text-blue-900 mb-3">
+          Stay Updated
+        </h3>
+        <p class="text-blue-800 mb-4">
+          Follow our latest news and results updates to stay informed about water quality conditions 
+          on the River Tamar.
+        </p>
+        <div class="flex gap-4">
+          <a href="/news/" class="btn">Latest News</a>
+          <a href="/results/" class="btn bg-blue-200 text-blue-800 hover:bg-blue-300">
+            View Results
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

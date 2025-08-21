@@ -1,0 +1,101 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const newsEntries = await getCollection('news');
+const sortedNews = newsEntries.sort((a, b) => 
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+const featuredNews = sortedNews.filter(entry => entry.data.featured);
+const regularNews = sortedNews.filter(entry => !entry.data.featured);
+---
+
+<Layout title="News & Updates - Drip Drip Tamar">
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 mb-4">
+        News & Updates
+      </h1>
+      <p class="text-lg text-gray-600">
+        Latest news about water quality monitoring on the River Tamar
+      </p>
+    </header>
+
+    {featuredNews.length > 0 && (
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Featured</h2>
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {featuredNews.map((entry) => (
+            <article class="card">
+              <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                <time datetime={entry.data.date.toISOString()}>
+                  {entry.data.date.toLocaleDateString('en-GB', {
+                    year: 'numeric',
+                    month: 'long', 
+                    day: 'numeric'
+                  })}
+                </time>
+                <span class="chip chip-primary">Featured</span>
+              </div>
+              <h3 class="text-xl font-semibold text-gray-900 mb-3">
+                <a href={`/news/${entry.slug}/`} class="hover:text-primary transition-colors">
+                  {entry.data.title}
+                </a>
+              </h3>
+              <p class="text-gray-600 mb-4">{entry.data.summary}</p>
+              {entry.data.tags.length > 0 && (
+                <div class="flex flex-wrap gap-1">
+                  {entry.data.tags.map((tag) => (
+                    <span class="chip">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section>
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">All News</h2>
+      <div class="space-y-6">
+        {regularNews.map((entry) => (
+          <article class="border-l-4 border-gray-200 pl-6 py-4">
+            <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+              <time datetime={entry.data.date.toISOString()}>
+                {entry.data.date.toLocaleDateString('en-GB', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+              <span class="text-gray-300">•</span>
+              <span>{entry.data.author}</span>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">
+              <a href={`/news/${entry.slug}/`} class="hover:text-primary transition-colors">
+                {entry.data.title}
+              </a>
+            </h3>
+            <p class="text-gray-600 mb-4">{entry.data.summary}</p>
+            {entry.data.tags.length > 0 && (
+              <div class="flex flex-wrap gap-1">
+                {entry.data.tags.map((tag) => (
+                  <span class="chip">{tag}</span>
+                ))}
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </section>
+
+    {sortedNews.length === 0 && (
+      <div class="text-center py-12">
+        <p class="text-gray-500 text-lg">No news articles available yet.</p>
+        <p class="text-gray-400 mt-2">Check back soon for updates!</p>
+      </div>
+    )}
+  </main>
+</Layout>

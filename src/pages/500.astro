@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+import Alert from '../components/Alert.astro';
+---
+
+<Layout title="Server Error - 500">
+  <div class="flex items-center justify-center min-h-[60vh]">
+    <Card class="max-w-md text-center">
+      <div class="text-6xl mb-6">🚨</div>
+      
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">
+        Server Error
+      </h1>
+      
+      <p class="text-gray-600 mb-6">
+        We're experiencing technical difficulties. Please try again in a few minutes.
+      </p>
+
+      <Alert type="error" class="mb-6 text-left">
+        <strong>What you can do:</strong>
+        <ul class="mt-2 text-sm space-y-1">
+          <li>• Refresh the page</li>
+          <li>• Check your internet connection</li>
+          <li>• Try again in a few minutes</li>
+        </ul>
+      </Alert>
+      
+      <div class="space-y-3">
+        <Button href="/" class="w-full">
+          Go to Homepage
+        </Button>
+        
+        <Button 
+          href="javascript:history.back()" 
+          variant="secondary" 
+          class="w-full"
+        >
+          Go Back
+        </Button>
+      </div>
+      
+      <div class="mt-6 pt-6 border-t border-gray-200">
+        <p class="text-sm text-gray-500">
+          If the problem persists, please 
+          <a href="/contact" class="text-primary hover:underline">contact us</a> 
+          and include details about what you were trying to do.
+        </p>
+      </div>
+    </Card>
+  </div>
+</Layout>

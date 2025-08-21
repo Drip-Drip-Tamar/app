@@ -1,0 +1,265 @@
+---
+export interface Props {
+  siteSlug: string;
+  class?: string;
+}
+
+const { siteSlug, class: className = '' } = Astro.props;
+---
+
+<div class={`results-chart-container ${className}`}>
+  <!-- Chart canvas -->
+  <div class="relative">
+    <canvas 
+      id="resultsChart" 
+      width="400" 
+      height="200"
+      role="img"
+      aria-label="Water quality results chart showing E. coli and Enterococci levels over time"
+    ></canvas>
+    
+    <!-- Loading state -->
+    <div id="chartLoading" class="absolute inset-0 flex items-center justify-center bg-gray-50 rounded">
+      <div class="text-center text-gray-500">
+        <div class="text-2xl mb-2">📊</div>
+        <p class="font-medium">Loading chart...</p>
+      </div>
+    </div>
+    
+    <!-- Error state -->
+    <div id="chartError" class="absolute inset-0 flex items-center justify-center bg-red-50 rounded hidden">
+      <div class="text-center text-red-600">
+        <div class="text-2xl mb-2">⚠️</div>
+        <p class="font-medium">Failed to load chart data</p>
+        <button onclick="loadChartData()" class="text-sm underline mt-2">Try again</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Chart controls -->
+  <div class="flex gap-2 mt-4">
+    <button class="px-3 py-1 text-sm bg-primary text-white rounded hover:bg-blue-700 transition-colors" data-period="3">3 months</button>
+    <button class="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors" data-period="6">6 months</button>
+    <button class="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors" data-period="12">12 months</button>
+    <button class="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors" data-period="all">All</button>
+  </div>
+</div>
+
+<script define:vars={{ siteSlug }}>
+  // Import Chart.js dynamically to handle client-side loading
+  import('https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js').then(() => {
+  
+  let chart = null;
+  let currentPeriod = '3';
+  
+  // Initialize chart when DOM is ready
+  document.addEventListener('DOMContentLoaded', function() {
+    initializeChart();
+    setupEventListeners();
+  });
+  
+  function setupEventListeners() {
+    // Date filter buttons
+    document.querySelectorAll('[data-period]').forEach(btn => {
+      btn.addEventListener('click', function() {
+        // Update active state - reset all buttons to gray
+        document.querySelectorAll('[data-period]').forEach(b => {
+          b.className = 'px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors';
+        });
+        // Set active button to primary
+        this.className = 'px-3 py-1 text-sm bg-primary text-white rounded hover:bg-blue-700 transition-colors';
+        
+        // Update period and reload data
+        currentPeriod = this.dataset.period;
+        loadChartData();
+      });
+    });
+  }
+  
+  async function initializeChart() {
+    const canvas = document.getElementById('resultsChart');
+    if (!canvas) return;
+    
+    // Initialize empty chart
+    chart = new window.Chart(canvas, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: 'E. coli (CFU/100ml)',
+            data: [],
+            borderColor: '#d32f2f', // danger color
+            backgroundColor: '#d32f2f20',
+            borderWidth: 2,
+            fill: false,
+            tension: 0.1
+          },
+          {
+            label: 'Enterococci (CFU/100ml)',
+            data: [],
+            borderColor: '#f57c00', // warning color
+            backgroundColor: '#f57c0020',
+            borderWidth: 2,
+            fill: false,
+            tension: 0.1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Bacterial Levels Over Time'
+          },
+          legend: {
+            display: true,
+            position: 'top'
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            callbacks: {
+              title: function(context) {
+                return new Date(context[0].label).toLocaleDateString();
+              },
+              label: function(context) {
+                return `${context.dataset.label}: ${context.parsed.y} CFU/100ml`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              unit: 'day',
+              displayFormats: {
+                day: 'MMM d'
+              }
+            },
+            title: {
+              display: true,
+              text: 'Sample Date'
+            }
+          },
+          y: {
+            type: 'logarithmic',
+            title: {
+              display: true,
+              text: 'CFU/100ml (log scale)'
+            },
+            min: 1,
+            ticks: {
+              callback: function(value) {
+                return value.toString();
+              }
+            }
+          }
+        },
+        interaction: {
+          mode: 'nearest',
+          axis: 'x',
+          intersect: false
+        }
+      }
+    });
+    
+    // Load initial data
+    loadChartData();
+  }
+  
+  async function loadChartData() {
+    showLoading();
+    
+    try {
+      // Calculate date range based on period
+      let fromDate = null;
+      if (currentPeriod !== 'all') {
+        const months = parseInt(currentPeriod);
+        fromDate = new Date();
+        fromDate.setMonth(fromDate.getMonth() - months);
+      }
+      
+      // Build API URL
+      const params = new URLSearchParams({ site: siteSlug });
+      if (fromDate) {
+        params.append('from', fromDate.toISOString().split('T')[0]);
+      }
+      
+      const response = await fetch(`/api/site-series?${params}`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      
+      // Transform data for Chart.js
+      const chartData = transformDataForChart(data.samples);
+      
+      // Update chart
+      chart.data.labels = chartData.labels;
+      chart.data.datasets[0].data = chartData.eColi;
+      chart.data.datasets[1].data = chartData.enterococci;
+      chart.update();
+      
+      hideLoading();
+      
+    } catch (error) {
+      console.error('Failed to load chart data:', error);
+      showError();
+    }
+  }
+  
+  function transformDataForChart(samples) {
+    // Sort samples by date (oldest first for chart)
+    const sortedSamples = samples.sort((a, b) => 
+      new Date(a.sampled_at) - new Date(b.sampled_at)
+    );
+    
+    const labels = [];
+    const eColi = [];
+    const enterococci = [];
+    
+    sortedSamples.forEach(sample => {
+      const date = new Date(sample.sampled_at);
+      labels.push(date);
+      
+      // Find E. coli and Enterococci values
+      const eColiResult = sample.results.find(r => r.param === 'e_coli');
+      const enteroResult = sample.results.find(r => r.param === 'intestinal_enterococci');
+      
+      eColi.push(eColiResult ? eColiResult.value : null);
+      enterococci.push(enteroResult ? enteroResult.value : null);
+    });
+    
+    return { labels, eColi, enterococci };
+  }
+  
+  function showLoading() {
+    document.getElementById('chartLoading').classList.remove('hidden');
+    document.getElementById('chartError').classList.add('hidden');
+  }
+  
+  function hideLoading() {
+    document.getElementById('chartLoading').classList.add('hidden');
+    document.getElementById('chartError').classList.add('hidden');
+  }
+  
+  function showError() {
+    document.getElementById('chartLoading').classList.add('hidden');
+    document.getElementById('chartError').classList.remove('hidden');
+  }
+  
+  // Make loadChartData available globally for retry button
+  window.loadChartData = loadChartData;
+  
+  }).catch(error => {
+    console.error('Failed to load Chart.js:', error);
+    document.getElementById('chartError').classList.remove('hidden');
+    document.getElementById('chartLoading').classList.add('hidden');
+  });
+</script>

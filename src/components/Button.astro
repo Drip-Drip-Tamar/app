@@ -1,0 +1,45 @@
+---
+export interface Props {
+  variant?: 'primary' | 'secondary' | 'danger' | 'success';
+  size?: 'sm' | 'md' | 'lg';
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  href?: string;
+  class?: string;
+}
+
+const { 
+  variant = 'primary', 
+  size = 'md', 
+  type = 'button',
+  disabled = false,
+  href,
+  class: className = '',
+  ...props 
+} = Astro.props;
+
+// Build CSS classes
+const baseClasses = 'btn';
+const sizeClasses = size === 'lg' ? 'btn-lg' : '';
+const variantClasses = variant === 'secondary' ? 'bg-gray-600 hover:bg-gray-500' :
+                     variant === 'danger' ? 'bg-danger hover:bg-danger/85' :
+                     variant === 'success' ? 'bg-success hover:bg-success/85' :
+                     ''; // primary uses default btn styles
+
+const allClasses = [baseClasses, sizeClasses, variantClasses, className]
+  .filter(Boolean)
+  .join(' ');
+
+// Use <a> if href is provided, otherwise use <button>
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag 
+  class={allClasses}
+  type={href ? undefined : type}
+  href={href}
+  disabled={!href && disabled}
+  {...props}
+>
+  <slot />
+</Tag>

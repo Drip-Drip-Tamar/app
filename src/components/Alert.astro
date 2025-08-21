@@ -1,16 +1,52 @@
 ---
-interface Props {
-    class?: string;
+export interface Props {
+  type?: 'info' | 'success' | 'warning' | 'danger';
+  dismissible?: boolean;
+  class?: string;
 }
 
-const { class: className } = Astro.props;
+const { 
+  type = 'info',
+  dismissible = false,
+  class: className = '',
+  ...props 
+} = Astro.props;
+
+const typeClasses = {
+  info: 'bg-info/10 border-info/20 text-info',
+  success: 'bg-success/10 border-success/20 text-success',
+  warning: 'bg-warning/10 border-warning/20 text-warning',
+  danger: 'bg-danger/10 border-danger/20 text-danger'
+};
+
+const baseClasses = 'border rounded-lg p-4 mb-4';
+const allClasses = [baseClasses, typeClasses[type], className].filter(Boolean).join(' ');
+
+const icons = {
+  info: 'ℹ️',
+  success: '✅',
+  warning: '⚠️',
+  danger: '❌'
+};
 ---
 
-<div class:list={['flex gap-4 p-4 rounded-sm bg-primary text-primary-content', className]}>
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current shrink-0" viewBox="0 0 24 24">
-        <path
-            d="M12 20.016q3.281 0 5.648-2.367t2.367-5.648-2.367-5.648-5.648-2.367-5.648 2.367-2.367 5.648 2.367 5.648 5.648 2.367zM12 2.016q4.125 0 7.055 2.93t2.93 7.055-2.93 7.055-7.055 2.93-7.055-2.93-2.93-7.055 2.93-7.055 7.055-2.93zM11.016 6.984h1.969v6h-1.969v-6zM11.016 15h1.969v2.016h-1.969v-2.016z"
-        ></path>
-    </svg>
-    <slot />
+<div class={allClasses} role="alert" {...props}>
+  <div class="flex items-start gap-3">
+    <span class="text-lg flex-shrink-0" aria-hidden="true">
+      {icons[type]}
+    </span>
+    <div class="flex-1">
+      <slot />
+    </div>
+    {dismissible && (
+      <button 
+        type="button" 
+        class="flex-shrink-0 text-current hover:opacity-70 transition-opacity"
+        onclick="this.parentElement.parentElement.remove()"
+        aria-label="Dismiss alert"
+      >
+        ✕
+      </button>
+    )}
+  </div>
 </div>
