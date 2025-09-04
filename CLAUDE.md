@@ -193,3 +193,6 @@ netlify deploy --prod
 - API documentation: `/docs/api.md`
 - Deployment guide: `/docs/deployment.md`
 - Contributing: `/CONTRIBUTING.md`
+## Sessions System Behaviors
+
+@CLAUDE.sessions.md
